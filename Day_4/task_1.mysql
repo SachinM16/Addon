@@ -1,0 +1,62 @@
+CREATE DATABASE mystores;
+USE mystores;
+
+CREATE TABLE products (
+    prodid INT PRIMARY KEY,
+    prodname VARCHAR(50),
+    date_of_purchase DATE,
+    price DECIMAL(10,2)
+);
+
+CREATE TABLE customers (
+    custid INT PRIMARY KEY,
+    custname VARCHAR(50),
+    city VARCHAR(50)
+);
+
+CREATE TABLE sales (
+    salesid INT PRIMARY KEY,
+    prodid INT,
+    saledate DATE,
+    custid INT,
+    FOREIGN KEY (prodid) REFERENCES products(prodid),
+    FOREIGN KEY (custid) REFERENCES customers(custid)
+);
+
+INSERT INTO products VALUES
+(1, 'Keyboard', '2025-06-01', 500.00),
+(2, 'Mouse', '2025-06-02', 300.00),
+(3, 'Monitor', '2025-06-03', 7000.00),
+(4, 'Printer', '2025-06-04', 4000.00),
+(5, 'CPU', '2025-06-05', 15000.00);
+
+(101, 'Alice', 'Mumbai'),
+(102, 'Bob', 'Delhi'),
+(103, 'Charlie', 'Chennai'),
+(104, 'David', 'Kolkata'),
+(105, 'Eva', 'Bangalore');
+
+(201, 1, '2025-06-06', 101),
+(202, 2, '2025-06-06', 102),
+(203, 3, '2025-06-07', 103),
+(204, 4, '2025-06-08', 104),
+(205, 5, '2025-06-08', 105);
+
+SELECT * FROM products;
+SELECT * FROM customers;
+SELECT * FROM sales;
+
+ALTER TABLE products ADD quantity INT;
+ALTER TABLE products ADD total_amount DECIMAL(10,2);
+
+UPDATE products SET quantity = 2 WHERE prodid = 1;
+UPDATE products SET quantity = 3 WHERE prodid = 2;
+UPDATE products SET quantity = 1 WHERE prodid = 3;
+UPDATE products SET quantity = 4 WHERE prodid = 4;
+UPDATE products SET quantity = 2 WHERE prodid = 5;
+
+UPDATE products SET total_amount = price * quantity;
+
+UPDATE products SET price = price * 1.15;
+
+DELETE FROM products WHERE prodname = 'Keyboard';
