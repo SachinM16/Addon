@@ -14,14 +14,23 @@ public class StringAnalyzer {
             }
         }
         String reversed = new StringBuilder(input).reverse().toString();
+        int maxLen = 0;
+        for (String word : words) {
+            if (word.length() > maxLen) {
+                maxLen = word.length();
+            }
+        }
         System.out.println("\n--- String Analysis ---");
         System.out.println("Original String : " + input);
         System.out.println("Word Count      : " + wordCount);
         System.out.println("Character Count : " + charCount);
         System.out.println("Reversed String : " + reversed);
-        System.out.println("Words:");
-        for (int i = 0; i < words.length; i++) {
-            System.out.println("  Word " + (i + 1) + ": " + words[i]);
+        System.out.print("Longest Word(s) : ");
+        for (String word : words) {
+            if (word.length() == maxLen) {
+                System.out.print(word + " ");
+            }
         }
+        System.out.println(); 
     }
 }
