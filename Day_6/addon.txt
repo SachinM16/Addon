@@ -1,0 +1,271 @@
+mysql> create database studprofile;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| stu                |
+| student            |
+| studprofile        |
+| sys                |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> use studprofile;
+Database changed
+mysql> create table sprofile(
+    -> rollno int primary key,
+    -> name varchar(20), 
+    -> dob date,
+    -> depar varchar(5),
+    -> city varchar(15)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> create table marks(
+    -> rollno int 
+    -> , name varchar(15),
+    -> mark1 int,
+    -> mark2 int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> ^C
+mysql> ;
+ERROR: 
+No query specified
+
+mysql> insert into sprofile values(1,'smith','2005-10-16','cs','madurai'),(2,'john','2003-07-11','ca','theni'),(3,'sonia','2001-02-06','bca','cbe'),(4,'kety','2002-10-01','tamil','chennai'),(5,'alok','2005-04-6','cs','kochi');
+Query OK, 5 rows affected (0.04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from sprofile;
++--------+-------+------------+-------+---------+
+| rollno | name  | dob        | depar | city    |
++--------+-------+------------+-------+---------+
+|      1 | smith | 2005-10-16 | cs    | madurai |
+|      2 | john  | 2003-07-11 | ca    | theni   |
+|      3 | sonia | 2001-02-06 | bca   | cbe     |
+|      4 | kety  | 2002-10-01 | tamil | chennai |
+|      5 | alok  | 2005-04-06 | cs    | kochi   |
++--------+-------+------------+-------+---------+
+5 rows in set (0.00 sec)
+
+mysql> alter table marks
+    -> add foreign key(rollno) references sprofile(rollno);
+Query OK, 0 rows affected (0.22 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table marks
+    -> modify rollno int not null;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into marks values(1,'smith',98,65),(2,'john',58,56),(3,'sonia',52,76),(4,'kety',40,44),(5,'alok',91,95);
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select 
+    -> * from marks;
++--------+-------+-------+-------+
+| rollno | name  | mark1 | mark2 |
++--------+-------+-------+-------+
+|      1 | smith |    98 |    65 |
+|      2 | john  |    58 |    56 |
+|      3 | sonia |    52 |    76 |
+|      4 | kety  |    40 |    44 |
+|      5 | alok  |    91 |    95 |
++--------+-------+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table marks
+    -> add total int;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table sprofile
+    -> rename column dob to dateofbirth;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc sprofile;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| rollno      | int         | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| dateofbirth | date        | YES  |     | NULL    |       |
+| depar       | varchar(5)  | YES  |     | NULL    |       |
+| city        | varchar(15) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> desc marks;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int         | NO   | MUL | NULL    |       |
+| name   | varchar(15) | YES  |     | NULL    |       |
+| mark1  | int         | YES  |     | NULL    |       |
+| mark2  | int         | YES  |     | NULL    |       |
+| total  | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> select * from sprofile;
++--------+-------+-------------+-------+---------+
+| rollno | name  | dateofbirth | depar | city    |
++--------+-------+-------------+-------+---------+
+|      1 | smith | 2005-10-16  | cs    | madurai |
+|      2 | john  | 2003-07-11  | ca    | theni   |
+|      3 | sonia | 2001-02-06  | bca   | cbe     |
+|      4 | kety  | 2002-10-01  | tamil | chennai |
+|      5 | alok  | 2005-04-06  | cs    | kochi   |
++--------+-------+-------------+-------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from marks;
++--------+-------+-------+-------+-------+
+| rollno | name  | mark1 | mark2 | total |
++--------+-------+-------+-------+-------+
+|      1 | smith |    98 |    65 |  NULL |
+|      2 | john  |    58 |    56 |  NULL |
+|      3 | sonia |    52 |    76 |  NULL |
+|      4 | kety  |    40 |    44 |  NULL |
+|      5 | alok  |    91 |    95 |  NULL |
++--------+-------+-------+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql> update marks
+    -> set total = mark1 + mark2;
+Query OK, 5 rows affected (0.11 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> delete from sprofie
+    -> where rollno = 4;
+ERROR 1146 (42S02): Table 'studprofile.sprofie' doesn't exist
+mysql> delete from sprofile
+    -> where rollno = 4;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`studprofile`.`marks`, CONSTRAINT `marks_ibfk_1` FOREIGN KEY (`rollno`) REFERENCES `sprofile` (`rollno`))
+mysql> set foreign_key_checks = 0;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delete from sprofile
+    -> where rollno = 4;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> set foreign_key_checks = 1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from sprofile;
++--------+-------+-------------+-------+---------+
+| rollno | name  | dateofbirth | depar | city    |
++--------+-------+-------------+-------+---------+
+|      1 | smith | 2005-10-16  | cs    | madurai |
+|      2 | john  | 2003-07-11  | ca    | theni   |
+|      3 | sonia | 2001-02-06  | bca   | cbe     |
+|      5 | alok  | 2005-04-06  | cs    | kochi   |
++--------+-------+-------------+-------+---------+
+4 rows in set (0.01 sec)
+
+mysql> select * from marks;
++--------+-------+-------+-------+-------+
+| rollno | name  | mark1 | mark2 | total |
++--------+-------+-------+-------+-------+
+|      1 | smith |    98 |    65 |   163 |
+|      2 | john  |    58 |    56 |   114 |
+|      3 | sonia |    52 |    76 |   128 |
+|      4 | kety  |    40 |    44 |    84 |
+|      5 | alok  |    91 |    95 |   186 |
++--------+-------+-------+-------+-------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> add table marks
+    -> add average int,
+    -> add grade int;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'add table marks
+add average int,
+add grade int' at line 1
+mysql> alter table marks
+    -> add average int,
+    -> add grade int;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from marks;
++--------+-------+-------+-------+-------+---------+-------+
+| rollno | name  | mark1 | mark2 | total | average | grade |
++--------+-------+-------+-------+-------+---------+-------+
+|      1 | smith |    98 |    65 |   163 |    NULL |  NULL |
+|      2 | john  |    58 |    56 |   114 |    NULL |  NULL |
+|      3 | sonia |    52 |    76 |   128 |    NULL |  NULL |
+|      4 | kety  |    40 |    44 |    84 |    NULL |  NULL |
+|      5 | alok  |    91 |    95 |   186 |    NULL |  NULL |
++--------+-------+-------+-------+-------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> update marks
+    -> set average = total/ 2.0;
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> update marks
+    -> set grade = case
+    -> when mark1 >=40 and mark2 >=40 then 'pass'
+    -> else 'fail'
+    -> end;
+ERROR 1366 (HY000): Incorrect integer value: 'pass' for column 'grade' at row 1
+mysql> alter table marks 
+    -> modify column grade varchar(15);
+Query OK, 5 rows affected (0.10 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> update marks
+    -> set grade = case
+    -> when mark1 >= 40 and mark2 >= 40 then 'pass'
+    -> else 'fail'
+    -> end;
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from marks;
++--------+-------+-------+-------+-------+---------+-------+
+| rollno | name  | mark1 | mark2 | total | average | grade |
++--------+-------+-------+-------+-------+---------+-------+
+|      1 | smith |    98 |    65 |   163 |      82 | pass  |
+|      2 | john  |    58 |    56 |   114 |      57 | pass  |
+|      3 | sonia |    52 |    76 |   128 |      64 | pass  |
+|      4 | kety  |    40 |    44 |    84 |      42 | pass  |
+|      5 | alok  |    91 |    95 |   186 |      93 | pass  |
++--------+-------+-------+-------+-------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table marks
+    -> drop column average;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> delete from sprofile
+    -> delete from marks;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delete from marks' at line 2
+mysql> delete from sprofile;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`studprofile`.`marks`, CONSTRAINT `marks_ibfk_1` FOREIGN KEY (`rollno`) REFERENCES `sprofile` (`rollno`))
+mysql> set foreign_key_checks = 0;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delete from sprofile;
+Query OK, 4 rows affected (0.01 sec)
+
+mysql> delete from marks;
+Query OK, 5 rows affected (0.01 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Terminal close -- exit!
